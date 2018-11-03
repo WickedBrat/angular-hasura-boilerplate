@@ -1,0 +1,1 @@
+# basic-angular-hasura-boilerplate
