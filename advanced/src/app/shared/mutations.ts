@@ -72,7 +72,10 @@ export const AddUserMutation = gql`
 `;
 
 export const UpdateUserMutation = gql`
-  mutation UpdateUserLastSeenMutation($where: users_bool_exp!, $set: users_set_input!) {
+  mutation UpdateUserLastSeenMutation(
+    $where: users_bool_exp!
+    $set: users_set_input!
+  ) {
     update_users(where: $where, _set: $set) {
       affected_rows
       returning {

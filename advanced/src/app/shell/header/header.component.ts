@@ -23,12 +23,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {}
 
   logout() {
-    this.authenticationService.logout().subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
+    this.authenticationService.logout();
   }
 
   get username(): string {
-    const credentials = this.authenticationService.credentials;
-    return credentials ? credentials.username : null;
+    const credentials = localStorage.getItem('user_id');
+    return credentials;
   }
 
   get title(): string {

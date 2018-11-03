@@ -25,7 +25,10 @@ export class GraphQLModule {
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer 123456`)
       .set('X-Hasura-Role', 'user')
-      .set('X-Hasura-User-Id', JSON.parse(localStorage.getItem('credentials')).username);
+      .set(
+        'X-Hasura-User-Id',
+        JSON.parse(localStorage.getItem('credentials')).username
+      );
 
     // Create a HTTP Link with the URI and the header.
     const http = httpLink.create({ uri, headers: authHeader });

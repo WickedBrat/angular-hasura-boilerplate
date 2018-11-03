@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 import { stringify } from '@angular/compiler/src/util';
 
 @Component({
-  selector: 'app-basic',
-  templateUrl: './basic.component.html',
-  styleUrls: ['./basic.component.scss']
+  selector: 'app-advanced',
+  templateUrl: './advanced.component.html',
+  styleUrls: ['./advanced.component.scss']
 })
-export class BasicComponent implements OnInit {
+export class AdvancedComponent implements OnInit {
   dataSource = [];
   noItemsInList = true;
 
