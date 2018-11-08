@@ -1,21 +1,17 @@
-import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { Apollo, ApolloModule } from 'apollo-angular';
-import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { NgModule } from "@angular/core";
+import { HttpClientModule, HttpHeaders } from "@angular/common/http";
+import { Apollo, ApolloModule } from "apollo-angular";
+import { HttpLink, HttpLinkModule } from "apollo-angular-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { environment } from "src/environments/environment";
 
 @NgModule({
-  exports: [
-    HttpClientModule,
-    ApolloModule,
-    HttpLinkModule
-  ]
+  exports: [HttpClientModule, ApolloModule, HttpLinkModule]
 })
-
 export class GraphQLModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
     // Replace this URL with your deployed endpoint of Hasura on Heroku.
-    const uri = 'https://<your-app-name>.herokuapp.com/v1alpha1/graphql';
+    const uri = environment.graphqlEndpoint;
 
     /** Following values need to be added to the header before making any
      *  query.
@@ -26,11 +22,11 @@ export class GraphQLModule {
      *  5. X-Hasura-User-Id: This the user id of the user.
      */
     const authHeader = new HttpHeaders()
-      .set('X-Hasura-Access-Key', 'something_secret')
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer <token-goes-here>`)
-      .set('X-Hasura-Role', 'user')
-      .set('X-Hasura-User-Id', '<user_id>');
+      .set("X-Hasura-Access-Key", environment.hasuraAccessKey)
+      .set("Content-Type", "application/json")
+      .set("Authorization", `Bearer <token-goes-here>`)
+      .set("X-Hasura-Role", "user")
+      .set("X-Hasura-User-Id", "<user_id>");
 
     // Create a HTTP Link with the URI and the header.
     const http = httpLink.create({ uri, headers: authHeader });

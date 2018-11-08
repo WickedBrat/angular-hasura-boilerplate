@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 
-import { environment } from '@env/environment';
 import { Logger, AuthenticationService } from '@app/core';
 
 const log = new Logger('Login');
@@ -14,7 +13,6 @@ const log = new Logger('Login');
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  version: string = environment.version;
   error: string;
   loginForm: FormGroup;
   isLoading = false;

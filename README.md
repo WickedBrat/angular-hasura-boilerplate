@@ -12,7 +12,7 @@ This repo has 3 boilerplates to get you started with Hasura and Angular 7.
 
   The `basic` boilerplate gives you an idea of how the `mutations` `subscriptions` and `queries` can be made to the Hasura GraphQL Engine.
 
-  ** What's new? **
+  **What's new?**
 
        - Basic signin page to log you in and create sessions.
        - Examples already set up to make queries in the ```todos``` table of Hasura's Heroku deployed app.
@@ -21,7 +21,7 @@ This repo has 3 boilerplates to get you started with Hasura and Angular 7.
 
   The `advanced` boilerplate gives you a full fledged application built on the `basic` boilerplate containing Auth0 integration.
 
-      ** What's new?**
+      **What's new?**
 
       - Authentication using Auth0.
 

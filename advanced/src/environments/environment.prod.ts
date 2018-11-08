@@ -6,5 +6,10 @@ export const environment = {
   version: env.npm_package_version,
   serverUrl: 'https://api.chucknorris.io',
   defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'fr-FR']
+  supportedLanguages: ['en-US'],
+  graphqlEndpoint: '<replace-with-your-endpoint>',
+  hasuraAccessKey: '<your-hasura-endpoint-access-key>',
+  auth0ClientId: '<client-id>',
+  auth0Domain: '<auth-domain>',
+  auth0RedirectUri: '<redirect-uri>'
 };

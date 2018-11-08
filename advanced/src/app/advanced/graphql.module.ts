@@ -3,6 +3,7 @@ import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Apollo, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { environment } from '@env/environment.prod';
 
 @NgModule({
   exports: [HttpClientModule, ApolloModule, HttpLinkModule]
@@ -10,7 +11,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 export class GraphQLModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
     // Replace this URL with your deployed endpoint of Hasura on Heroku.
-    const uri = 'https://hasura-angular.herokuapp.com/v1alpha1/graphql';
+    const uri = environment.graphqlEndpoint;
 
     /** Following values need to be added to the header before making any
      *  query.
@@ -21,7 +22,7 @@ export class GraphQLModule {
      *  5. X-Hasura-User-Id: This the user id of the user.
      */
     const authHeader = new HttpHeaders()
-      .set('X-Hasura-Access-Key', 'something_secret')
+      .set('X-Hasura-Access-Key', environment.hasuraAccessKey)
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer 123456`)
       .set('X-Hasura-Role', 'user')
