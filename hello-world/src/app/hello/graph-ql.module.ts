@@ -10,7 +10,6 @@ import { environment } from "src/environments/environment";
 })
 export class GraphQLModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
-    // Replace this URL with your deployed endpoint of Hasura on Heroku.
     const uri = environment.graphqlEndpoint;
 
     /** Following values need to be added to the header before making any

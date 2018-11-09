@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Apollo } from 'apollo-angular';
-import * as OPERATIONS from '../shared/mutations';
+import * as OPERATIONS from '../shared/operations';
 import { Observable } from 'rxjs';
 import { stringify } from '@angular/compiler/src/util';
 

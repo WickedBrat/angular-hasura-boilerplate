@@ -16,23 +16,19 @@ Once all the dependencies are installed, you're ready to go!
 $ npm start
 ```
 
-This starts the development server at port 4200 (localhost).
+This starts the development server at localhost:4200.
 
-### What does this boilerplate contain ?
+### About this boilerplate
 
-This boilerplate is built on top of the `hello-world` boilerplate so the initial `ApolloClient` setup is already done!
+This boilerplate is build upon the `hello-world` boilerplate which contained the basic set up for the Apollo Client.
 
-This boilerplate aims to help you with writing your **query/mutation/subscription** operations and how to perform them.
+In this boilerplate we'll be getting around the basic operations which can be performed on a table. Operations like **query** **mutation** and **subscription** will be used in this example.
 
-The App is a simple **todo** application with a basic authentication system which works as follows:
-
-- user enter their name, the name is parallely checked for it's availability, if available a **green** tick is shown.
-- if a **green** tick is not shown, which means the user already exits, therefore a login button is shown instead and the user is forwarded to their respective dashboard.
-- The user can then `add todos`, `mark them completed` and `delete todos`.
-
-Below shown are some code snippets of the **query/mutation/subscription** used in the following app :
+We'll be using a deployed app of Hasura GraphQL Engine on heroku. To setup the app [follow this link](https://heroku.com/deploy?template=https://github.com/hasura/graphql-engine-heroku) to goto Heroku and setup the GraphQL Engine.
 
 #### Schema :
+
+We'll be using following schema for the table on the deployed Hasura application.
 
 ```
 todo:
@@ -51,165 +47,101 @@ created_at - timestamp default - now()
 last_seen - timestamp
 ```
 
-###### **( all queries present in `/src/Queries/queries.js` )**
-
----
-
-#### Query :
-
-###### 1. `checkNameExistQuery` :
-
-This query takes in a variable `name` and checks in the `users` table for an entry with the passed `name`.
-
-#
+Let's dive into the operations for the application.
 
 ```
-query checkName($name: String!) {
-    users (
-      where: { name: {_eq: $name }},
-    ) {
+  All the operations related to the applications are defined at
+```
+
+#### Query
+
+The following theory gets the fields `id` `text` `is_completed` `created_at` `updated_at` `is_public` and `user_id` from the table called `todos` in the Heroku deployed Hasura engine.
+
+```
+  query GetQuery {
+    todos {
       id
-      name
+      text
+      is_completed
       created_at
-      last_seen
+      updated_at
+      is_public
+      user_id
     }
-}
+  }
 ```
 
-###### 2. `fetchUserQuery` :
+#### Mutation
 
-This query just fetches the name of the user after login so that it is displayed on the navbar in the dashboard page.
+###### 1. `AddMutation` or Insert Operation
 
-#
-
-```
-query fetchName($name: String!) {
-    users (
-      where: { name: {_eq: $name }},
-    ) {
-      name
-    }
-}
-```
-
-#### Mutation :
-
-###### 1. `addTodoQuery` : [ `insert` ]
-
-Simply adds a todo into the table `todo`, arguments passed into the mutation functions are the `data` - information in the todo & `user_id` - the id of the user that added the todo.
-
-#
+The following mutation inserts the object provided by `$objects` variable in the table called `todos` and returns the items specified in the `returning` portion of the mutation.
 
 ```
-mutation addTodo($data: String!, $user_id: Int!) {
-    insert_todo (
-      objects: [
-        {
-          data: $data,
-          user_id: $user_id
-        }
-      ]
-    ) {
+  mutation AddMutation($objects: [todos_insert_input!]!) {
+    insert_todos(objects: $objects) {
       returning {
         id
-        data
+        text
         is_completed
         created_at
         updated_at
         is_public
+        user_id
       }
     }
-}
+  }
 ```
 
-###### 2. `markCompletedQuery` : [ `update` ]
-
-When the user clicks on the todo, it is striked through showing it is completed setting the value of `is_completed` in the `todo` table as **true** also the timestamp is passed into the mutation function storing the time when the todo was completed.
-
-#
+This mutation adds user in the table called `users` if it not already exists.
 
 ```
-mutation completeTodo($id: Int!, $updated_at: timestamptz!) {
-    update_todo (
-      where: { id: { _eq: $id }},
-      _set: { is_completed: true, updated_at: $updated_at }
-    ) {
+  mutation AddUserMutation($objects: [users_insert_input!]!) {
+    insert_users(objects: $objects) {
+      returning {
+        id
+        name
+        created_at
+        last_seen
+      }
+    }
+  }
+```
+
+###### 2. `UpdateMutation` or Update Operation
+
+This mutation takes care of the updating of fields in the `todos` table. The variable `$where` takes the condition that needs to be fullfilled to make the required change and the variable `$set` take the vaalue that will be changed.
+
+```
+  mutation UpdateMutation($where: todos_bool_exp!, $set: todos_set_input!) {
+    update_todos(where: $where, _set: $set) {
       affected_rows
+      returning {
+        id
+        text
+        is_completed
+        created_at
+        updated_at
+        is_public
+        user_id
+      }
     }
-}
+  }
 ```
 
-###### 3. `deleteQuery` : [ `delete` ]
+###### 3. `DeleteMutation` or Delete Operation
 
-Takes in the `id` of the todo that needs to be deleted and performs a delete operations on that todo causing the entry to be deleted from `todo` table.
-
-#
+The delete mutation takes the condition from the `$where` variable and uses it to find the row that needs to be deleted.
 
 ```
-mutation deleteTodo($id: Int!) {
-    delete_todo(
-      where: {id: { _eq: $id }}
-    ) {
+  mutation DeleteMutation($where: todos_bool_exp!) {
+    delete_todos(where: $where) {
       affected_rows
+      returning {
+        id
+      }
     }
-}
-```
-
-#### Subcription :
-
-###### 1. `fetchTodosUncompletedSubs` :
-
-This subcription is fired everytime a new todo is added to the `todo` table.
-
-#
-
-```
-subscription fetchTodos($user_id: Int!) {
-    todo (
-      where: { user_id: {_eq: $user_id }, is_completed: { _eq: false }},
-      order_by: id_desc
-    ) {
-      id
-      data
-      is_completed
-      created_at
-      updated_at
-      is_public
-    }
-}
-```
-
-###### 2. `fetchTodosCompletedSubs` :
-
-This subcription is fired everytime a todo is marked completed.
-
-#
-
-```
-subscription fetchTodosCompleted($user_id: Int!) {
-    todo (
-      where: { user_id: {_eq: $user_id }, is_completed: { _eq: true }},
-      order_by: id_desc
-    ) {
-      id
-      data
-      is_completed
-      created_at
-      updated_at
-      is_public
-    }
-}
-```
-
-### Deployment
-
-First create a file `env.js` in your `/src` folder, this file will contain your environment variables needed for the app to work.
-
-```
-export const vars = {
-  "GRAPHQL_ENDPOINT": "https://",
-  "GRAPHQL_SUBS_ENDPOINT": "ws://",
-}
+  }
 ```
 
 The App can be deployed immidiately on `heroku` with no further setup or configurations required.
@@ -224,4 +156,4 @@ The App can be deployed immidiately on `heroku` with no further setup or configu
 
 #### Dashboard :
 
-![dash](/basic/ss/dash.png)
+![dash](/basic/ss/dashboard.png)

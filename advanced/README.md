@@ -1,18 +1,39 @@
-# Advanced Boilerplate
+# Angular-Hasura-Boilerplate - advanced
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
+## Getting Started
 
-## Setting up
+### Installing
 
-Clone the repository using `git clone http:github.com/WickedBrat/hello-world`
+You need to first install all the npm packages that are used in this boilerplate.
 
-run `npm install` to install required dependencies.
+```
+$ npm install
+```
 
-## Development server
+Once all the dependencies are installed, you're ready to go!
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```
+$ npm start
+```
 
-## About the repo
+This starts the development server at localhost:4200.
 
-- Keep all your applcation related components in the HelloModule.
-- Change values in GraphQL Module for your Hasura App.
+### About this boilerplate
+
+This boilerplate is build upon the `basic` boilerplate which contained the basic set up for the Apollo Client and examples for mutations queries and subscriptions.
+
+In this boilerplate we'll be getting around the integrating Auth0 authentication with the basic app.
+
+Headout to [Auth0 website]() to setup an application and get the credentials for the the client settup from there.
+
+### Screenshots
+
+##### Login Screen :
+
+![login](/advanced/ss/login.png)
+
+#
+
+#### Dashboard :
+
+![dash](/advanced/ss/dashboard.png)
