@@ -35,10 +35,21 @@ Clone the repo first then `cd` into the folder you want to use as a boilerplate,
 $ npm install
 ```
 
-Once all the dependencies are installed, you're ready to go!
+This starts the development server at port 4200 (localhost).
+
+### Setting up environment variables.
+
+In each boilerplates, we are using environment file to store user and application specific data. The file `/src/environments/environment.ts` contains all the variables with the values.
+
+To set up the env variables,
+
+- Deploy Hasura to Heroku to recieve an endpoint that will be used to interact with your application.
+- Create an access key in the Heroku application and use that same key here. This key will be used to prevent any other user access your deployed endpoint.
+
+### Starting the server
+
+Once all the dependencies are installed and environment variables are set, you're ready to go!
 
 ```
 $ npm start
 ```
-
-This starts the development server at port 4200 (localhost).
