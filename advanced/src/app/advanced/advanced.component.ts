@@ -44,8 +44,7 @@ export class AdvancedComponent implements OnInit {
           objects: [
             {
               text: 'Congrats! You just added a string.',
-              user_id: JSON.parse(localStorage.getItem('credentials')).username,
-              updated_at: stringify(Date.now())
+              user_id: localStorage.getItem('user_id')
             }
           ]
         }
