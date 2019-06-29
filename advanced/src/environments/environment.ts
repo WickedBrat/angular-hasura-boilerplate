@@ -15,5 +15,5 @@ export const environment = {
   graphqlEndpoint: '<replace-with-your-endpoint>',
   auth0ClientId: '<client-id>',
   auth0Domain: '<auth-domain>',
-  auth0RedirectUri: '<redirect-uri>'
+  auth0RedirectUri: 'http://localhost:4200' // redirect back to index
 };
