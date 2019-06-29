@@ -13,7 +13,6 @@ export const environment = {
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US'],
   graphqlEndpoint: '<replace-with-your-endpoint>',
-  hasuraAccessKey: '<your-hasura-endpoint-access-key>',
   auth0ClientId: '<client-id>',
   auth0Domain: '<auth-domain>',
   auth0RedirectUri: '<redirect-uri>'
