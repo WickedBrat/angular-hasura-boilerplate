@@ -12,7 +12,7 @@ import { stringify } from '@angular/compiler/src/util';
   styleUrls: ['./advanced.component.scss']
 })
 export class AdvancedComponent implements OnInit {
-  dataSource = [];
+  dataSource: any = [];
   noItemsInList = true;
 
   constructor(private apollo: Apollo) {}
