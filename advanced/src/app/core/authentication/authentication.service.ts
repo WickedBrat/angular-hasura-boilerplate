@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import * as auth0 from 'auth0-js';
 import { Router } from '@angular/router';
+import { environment } from '@env/environment';
 
 /**
  * Provides a base for authentication workflow.
@@ -10,30 +11,35 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthenticationService {
   auth0 = new auth0.WebAuth({
-    clientID: '<client-id>',
-    domain: '<domain>',
+    clientID: environment.auth0ClientId, // '<client-id>',
+    domain: environment.auth0Domain, // '<domain>',
     responseType: 'token id_token',
-    redirectUri: '<redirect-uri>',
+    redirectUri: environment.auth0RedirectUri, // '<redirect-uri>',
     scope: 'openid'
   });
 
   constructor(private router: Router) {}
 
+  /** Authorizes with Auth0 */
+  public login(): void {
+    this.auth0.authorize();
+  }
+
+  /** Logs out by clearing the access and ID tokens */
   public logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('user_id');
     localStorage.removeItem('expires_at');
+    // navigate to the home route
     location.reload();
     this.router.navigate(['/']);
   }
 
+  /** Checks whether the current time is past the access token's expiry time */
   public isAuthenticated(): boolean {
     const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
     return new Date().getTime() < expiresAt;
-  }
-  public login(): void {
-    this.auth0.authorize();
   }
 
   public handleAuthentication(): void {
@@ -51,6 +57,7 @@ export class AuthenticationService {
   }
 
   private setSession(authResult: any): void {
+    // Set the time that the access token will expire at
     const expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
