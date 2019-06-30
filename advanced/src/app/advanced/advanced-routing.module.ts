@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { AdvancedComponent } from './advanced.component';
+import { AuthenticationGuard } from '@app/core';
 
+// Module is lazy loaded, see app-routing.module.ts
 const routes: Routes = [
-  // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: AdvancedComponent, data: { title: 'Advanced' } }
+  {
+    path: '',
+    canActivate: [AuthenticationGuard],
+    component: AdvancedComponent,
+    data: { title: 'Advanced' }
+  }
 ];
 
 @NgModule({

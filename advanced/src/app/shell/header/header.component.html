@@ -1,20 +1,53 @@
 <mat-toolbar class="mat-elevation-z6 navbar" color="primary">
-  <div fxHide.gt-sm fxLayoutAlign="start center">
-    <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span class="title">{{title}}</span>
-  </div>
-  <button mat-icon-button [matMenuTriggerFor]="userMenu">
-    <mat-icon>person</mat-icon>
+  <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
   </button>
-  <mat-menu #userMenu="matMenu">
-    <mat-list>
-      <mat-list-item>
-        <span >Logged in as</span>&nbsp;<b>{{username}}</b>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </mat-list>
-    <button mat-menu-item (click)="logout()" >Logout</button>
-  </mat-menu>
+
+  <span class="title">{{ title }}</span>
+
+  <div fxFlex fxLayout fxLayoutAlign="flex-end">
+    <ul fxLayout fxLayoutGap="1rem">
+      <!-- Example adding some buttons visible only if not xs
+          <li fxHide.xs>
+            <button mat-icon-button>
+              <mat-icon>settings</mat-icon>
+            </button>
+          </li>
+
+          <li fxHide.xs>
+            <button mat-icon-button>
+              <mat-icon>help_outline</mat-icon>
+            </button>
+          </li>
+        -->
+      <ng-container *ngIf="username; else loginButton">
+        <li>
+          <button mat-icon-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>person_outline</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <mat-list>
+              <mat-list-item>
+                <span>Logged in as</span>&nbsp;<b>{{ username }}</b>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </li>
+      </ng-container>
+
+      <ng-template #loginButton>
+        <li>
+          <button mat-button (click)="login()">
+            <mat-icon>person_outline</mat-icon>
+            <span>Login</span>
+          </button>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
 </mat-toolbar>
