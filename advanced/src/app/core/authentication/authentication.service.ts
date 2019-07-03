@@ -144,9 +144,6 @@ export class AuthenticationService {
 
         // Redirect the user back to where they were before logging in
         this.router.navigate([this._loginPath]);
-        setTimeout(() => {
-          window.location.reload();
-        }, 200);
       } else if (err) {
         console.error('Authentication error', err);
       }
