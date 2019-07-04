@@ -22,16 +22,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {}
 
-  logout() {
-    this.authenticationService.logout();
-  }
-
   get username(): string {
-    const credentials = localStorage.getItem('user_id');
-    return credentials;
+    return this.authenticationService.userId;
   }
 
   get title(): string {
     return this.titleService.getTitle();
+  }
+
+  login() {
+    this.authenticationService.login();
+  }
+
+  logout() {
+    this.authenticationService.logout();
   }
 }
